@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:aop="http://www.springframework.org/schema/aop" 
-	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -32,46 +30,24 @@
 	<mvc:annotation-driven />
 	<mvc:default-servlet-handler />
 
-	<!-- 数据源配置 -->
-		<bean id="proxoolDataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource">
-		<property name="driver" value="com.mysql.jdbc.Driver"/>
-		<property name="driverUrl" value="jdbc:mysql://localhost:3306/lovepet?useUnicode=true&amp;characterEncoding=utf8"/>
-		<property name="user" value="root"/>
-		<property name="password" value=""/>
-        <property name="houseKeepingTestSql" value="select CURRENT_DATE"/>
-        <property name="houseKeepingSleepTime" value="30000"/> 
-		<property name="prototypeCount" value="2"/>
-		<property name="maximumActiveTime" value="300000"/>
-		<property name="maximumConnectionLifetime" value="3600000"/>
-		<property name="minimumConnectionCount" value="2"/>
-		<property name="maximumConnectionCount" value="10"/>
-		<property name="simultaneousBuildThrottle" value="10"/>
+
+	<!-- 数据库配置 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/lovepet?useUnicode=true&amp;characterEncoding=utf8" />
+		<property name="username" value="root" />
+		<property name="password" value="" />
 	</bean>
-	
-	<!-- sessionFactory配置 -->
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-		<property name="dataSource" ref="proxoolDataSource" />
-		<property name="namingStrategy">
-			<bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
-		</property>
-		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.jdbc.batch_size">50</prop>
-			</props>
-		</property>
-		
-		<!-- 配置自动扫描 -->
-		<property name="packagesToScan" value="com.j3l11234.lovepet.entity" />
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
 	</bean>
-	<!-- transactionManager配置 -->
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory" />
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.j3l11234.lovepet.mapper" />
 	</bean>
 
-	<tx:annotation-driven transaction-manager="transactionManager" />
 
 </beans>

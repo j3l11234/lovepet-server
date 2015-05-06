@@ -1,14 +1,5 @@
 package com.j3l11234.lovepet.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "user")
 public class UserEntity {
 	/**
 	 * 普通用户
@@ -23,42 +14,18 @@ public class UserEntity {
 	 */
 	public static final int ADMIN_SYSTEM = 0x00000004;
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_id", unique = true, nullable = false)
+
 	private int id;
-	 
-	@Column(name = "user_name")
 	private String username;
-
-	@Column(name = "user_email")
 	private String email;
-	
-	@Column(name = "user_pwd")
 	private String pwd;
-	
-	@Column(name = "user_alias")
 	private String alias;
-	
-	@Column(name = "user_privilege")
 	private int privilege;
-	
-	@Column(name = "user_portrait")
 	private String portrait;
-
-	@Column(name = "user_sex")
 	private int sex;
-	
-	@Column(name = "user_real_name")
 	private String realName;
-	
-	@Column(name = "user_phone")
 	private String phone;
-	
-	@Column(name = "user_follow_num")
 	private int followNum;
-	
-	@Column(name = "user_fans_num")
 	private int fansNum;
 
 	
