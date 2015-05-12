@@ -7,6 +7,14 @@
 
 	<display-name>lovepet</display-name>
 
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>WEB-INF/log4j.properties</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+	
 	<!-- 加载UrlRewriter -->
 	<filter>
 		<filter-name>UrlRewriterFilter</filter-name>
@@ -29,7 +37,9 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
+	
 	<session-config>
+		<session-timeout>60000</session-timeout>
 		<cookie-config>
 			<http-only>false</http-only>
 		</cookie-config>

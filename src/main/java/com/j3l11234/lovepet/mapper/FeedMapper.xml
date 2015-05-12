@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j3l11234.lovepet.mapper.FeedMapper">
+	
+	<resultMap type="com.j3l11234.lovepet.entity.FeedEntity" id="getFeed">
+		<id column="feed_id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="feed_content" property="content" />
+		<result column="feed_photo" property="photo" />
+		<result column="feed_original" property="originalId" />
+		<result column="feed_fav_num" property="favNum" />
+		<result column="feed_reply_num" property="replyNum" />
+		<result column="feed_repost_num" property="repostNum" />
+		<result column="feed_submit_time" property="submitTime" />
+	</resultMap>
+	<select id="getFeed" resultMap="getFeed">
+		SELECT * FROM feed WHERE feed_id=#{id}
+	</select>
+
+
+	<insert id="addFeed" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO feed
+		(user_id,feed_content,feed_photo,feed_original,feed_fav_num,feed_reply_num,feed_repost_num,feed_submit_time)
+		VALUES
+		(#{userId},#{content},#{photo},#{originalId},#{favNum},#{replyNum},#{repostNum},#{submitTime})
+	</insert>
+
+	<resultMap type="HashMap" id="getFeedFollow">
+		<id column="feed_id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="feed_content" property="content" />
+		<result column="feed_photo" property="photo" />
+		<result column="feed_original" property="originalId" />
+		<result column="feed_fav_num" property="favNum" />
+		<result column="feed_reply_num" property="replyNum" />
+		<result column="feed_repost_num" property="repostNum" />
+		<result column="feed_submit_time" property="submitTime" />
+		<association property="user" javaType="HashMap">
+			<id column="user_id" property="id" />
+			<result column="user_alias" property="alias" />
+			<result column="user_portrait" property="portrait" />
+			<result column="user_sex" property="sex" />
+		</association>
+		<association property="original" javaType="HashMap">
+			<id column="original_feed_id" property="id" />
+			<result column="original_feed_content" property="content" />
+			<result column="original_feed_photo" property="photo" />
+			<result column="original_feed_fav_num" property="favNum" />
+			<result column="original_feed_reply_num" property="replyNum" />
+			<result column="original_feed_repost_num" property="repostNum" />
+			<result column="original_feed_submit_time" property="submitTime" />
+			<association property="user" javaType="HashMap">
+				<id column="original_user_id" property="id" />
+				<result column="original_user_alias" property="alias" />
+				<result column="original_user_portrait" property="portrait" />
+				<result column="original_user_sex" property="sex" />
+			</association>
+		</association>
+	</resultMap>
+	<select id="getFeedFollow" resultMap="getFeedFollow">
+		SELECT 
+		feed.feed_id,	
+		feed.feed_content,
+		feed.feed_photo,
+		feed.feed_original,
+		feed.feed_fav_num,
+		feed.feed_reply_num,
+		feed.feed_repost_num,
+		feed.feed_submit_time,
+		feed.user_id,
+		user.user_alias,
+		user.user_sex,
+		user.user_portrait,
+		original.feed_id AS original_feed_id,
+		original.feed_content AS original_feed_content,
+		original.feed_photo AS original_feed_photo,
+		original.feed_fav_num AS original_feed_fav_num,
+		original.feed_reply_num AS original_feed_reply_num,
+		original.feed_repost_num AS original_feed_repost_num,
+		original.feed_submit_time AS original_feed_submit_time,
+		original_user.user_id AS original_user_id,
+		original_user.user_alias AS original_user_alias,
+		original_user.user_sex AS original_user_sex,
+		original_user.user_portrait AS original_user_portrait
+		FROM feed
+		LEFT JOIN user ON feed.user_id=user.user_id
+		LEFT JOIN feed AS original ON original.feed_id=feed.feed_original
+		LEFT JOIN user AS original_user ON original.user_id=original_user.user_id
+		WHERE feed.user_id IN
+		<foreach collection="followUserList" item="user" index="index" open="("
+			separator="," close=")" >#{user.followUserId}</foreach>
+		ORDER BY feed.feed_submit_time DESC
+	</select>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j3l11234.lovepet.mapper.UserFollowMapper">
+
+	<resultMap type="com.j3l11234.lovepet.entity.UserFollowEntity" id="getFollow">
+		<id column="follow_id" property="id" />
+		<result column="follow_fans_id" property="followFansId" />
+		<result column="follow_user_id" property="followUserId" />
+		<result column="follow_time" property="followTime" />
+	</resultMap>
+	<select id="getFollow" resultMap="getFollow">
+		SELECT * FROM user_follow WHERE follow_id=#{id}
+	</select>
+
+
+	<resultMap type="com.j3l11234.lovepet.entity.UserFollowEntity" id="getFollowUser">
+		<result column="follow_user_id" property="followUserId" />
+	</resultMap>
+	<select id="getFollowUser" resultMap="getFollowUser">
+		SELECT follow_user_id FROM user_follow WHERE follow_fans_id = #{userId}
+	</select>
+
+</mapper>

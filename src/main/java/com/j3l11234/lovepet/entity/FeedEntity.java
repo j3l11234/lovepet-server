@@ -2,152 +2,71 @@ package com.j3l11234.lovepet.entity;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "feed")
 public class FeedEntity {
-	/**
-	 * 普通用户
-	 */
-	public static final int USER = 0x00000001;
-	/**
-	 * 内容管理权限
-	 */
-	public static final int ADMIN_CONTENT = 0x00000002;
-	/**
-	 * 系统管理权限
-	 */
-	public static final int ADMIN_SYSTEM = 0x00000004;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "feed_id", unique = true, nullable = false)
-	private int feedId;
-	 
-	@Column(name = "user_id")
+
+	private int id;
 	private int userId;
-
-	@Column(name = "feed_content")
 	private String content;
-	
-	@Column(name = "feed_photo")
 	private String photo;
-	
-	@Column(name = "feed_original")
-	private int original;
-	
-	@Column(name = "feed_fav_num")
+	private Integer originalId;
 	private int favNum;
-	
-	@Column(name = "feed_reply_num")
 	private int replyNum;
-
-	@Column(name = "feed_repost_num")
 	private int repostNum;
-	
-	@Column(name = "feed_submit_time")
-	private java.util.Date submitTime;
-	
+	private Date submitTime;
 	
 	public int getId() {
-		return feedId;
+		return id;
 	}
-
-
 	public void setId(int id) {
-		this.feedId = id;
+		this.id = id;
 	}
-
-
-	public int getUser_id() {
+	public int getUserId() {
 		return userId;
 	}
-
-
-	public void setUser_id(int user_id) {
-		this.userId = user_id;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
-
-
 	public String getContent() {
 		return content;
 	}
-
-
 	public void setContent(String content) {
 		this.content = content;
 	}
-
-
 	public String getPhoto() {
 		return photo;
 	}
-
-
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
-
-
-	public int getOriginal() {
-		return original;
+	public Integer getOriginalId() {
+		return originalId;
 	}
-
-
-	public void setOriginal(int original) {
-		this.original = original;
+	public void setOriginalId(Integer originalId) {
+		this.originalId = originalId;
 	}
-
-
-	public int getFav_num() {
+	public int getFavNum() {
 		return favNum;
 	}
-
-
-	public void setFav_num(int fav_num) {
-		this.favNum = fav_num;
+	public void setFavNum(int favNum) {
+		this.favNum = favNum;
 	}
-
-
-	public int getReply_num() {
+	public int getReplyNum() {
 		return replyNum;
 	}
-
-
-	public void setReply_num(int reply_num) {
-		this.replyNum = reply_num;
+	public void setReplyNum(int replyNum) {
+		this.replyNum = replyNum;
 	}
-
-
-	public int getRepost_num() {
+	public int getRepostNum() {
 		return repostNum;
 	}
-
-
-	public void setRepost_num(int repost_num) {
-		this.repostNum = repost_num;
+	public void setRepostNum(int repostNum) {
+		this.repostNum = repostNum;
 	}
-
-
-	public Date getSubmit_time() {
+	public Date getSubmitTime() {
 		return submitTime;
 	}
-
-
-	public void setSubmit_time(Date submit_time) {
-		this.submitTime = submit_time;
+	public void setSubmitTime(Date submitTime) {
+		this.submitTime = submitTime;
 	}
 
-
-	
-
-	public static boolean checkPrivilege(int userPrivilege, int privilege) {
-		return (userPrivilege & privilege) == privilege;
-	}
 }

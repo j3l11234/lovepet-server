@@ -9,22 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "feed")
+
 public class FeedReplyEntity {
-	/**
-	 * 普通用户
-	 */
-	public static final int USER = 0x00000001;
-	/**
-	 * 内容管理权限
-	 */
-	public static final int ADMIN_CONTENT = 0x00000002;
-	/**
-	 * 系统管理权限
-	 */
-	public static final int ADMIN_SYSTEM = 0x00000004;
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "freply_id", unique = true, nullable = false)

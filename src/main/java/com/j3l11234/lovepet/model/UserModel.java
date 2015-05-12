@@ -21,7 +21,7 @@ public class UserModel {
 	public UserEntity login(String username, String password) throws MyException{
 		UserEntity user = null;
 		try {
-			user = userMapper.login(username, string2MD5(password));
+			user = userMapper.getUserLogin(username, string2MD5(password));
 			
 			if(user == null){
 				throw new MyException("用户名或密码错误");
