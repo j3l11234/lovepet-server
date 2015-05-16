@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j3l11234.lovepet.mapper.FeedReplyMapper">
+	
+	<resultMap type="com.j3l11234.lovepet.entity.FeedReplyEntity" id="getFeedReply">
+		<id column="freply_id" property="id" />
+		<result column="feed_id" property="feedId" />
+		<result column="user_id" property="userId" />
+		<result column="freply_submit_time" property="submitTime" />
+		<result column="freply_content" property="content" />
+	</resultMap>
+	<select id="getFeedReply" resultMap="getFeedReply">
+		SELECT * FROM feed_reply WHERE freply_id=#{id}
+	</select>
+	
+	
+	<insert id="addFeedReply" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO feed_reply
+		(feed_id,user_id,freply_submit_time,freply_content)
+		VALUES
+		(#{feedId},#{userId},#{submitTime},#{content})
+	</insert>
+	
+	
+	<resultMap type="HashMap" id="getFeedReplyList">
+		<id column="freply_id" property="id" />
+		<result column="feed_id" property="feedId" />
+		<result column="freply_submit_time" property="submitTime" />
+		<result column="freply_content" property="content" />
+		<association property="user" javaType="HashMap">
+			<id column="user_id" property="id" />
+			<result column="user_alias" property="alias" />
+			<result column="user_portrait" property="portrait" />
+			<result column="user_sex" property="sex" />
+		</association>
+	</resultMap>
+	<select id="getFeedReplyList" resultMap="getFeedReplyList">
+		SELECT 
+		freply_id,feed_id,freply_submit_time,freply_content,
+		user.user_id,user_alias,user_portrait,user_sex
+		FROM feed_reply 
+		LEFT JOIN user ON feed_reply.user_id=user.user_id
+		WHERE feed_id=#{feedId}
+		LIMIT #{limitStart},#{limitEnd}
+	</select>
+	
+</mapper>

@@ -37,6 +37,7 @@
 		<result column="feed_reply_num" property="replyNum" />
 		<result column="feed_repost_num" property="repostNum" />
 		<result column="feed_submit_time" property="submitTime" />
+		<result column="ffav_time" property="favTime" />
 		<association property="user" javaType="HashMap">
 			<id column="user_id" property="id" />
 			<result column="user_alias" property="alias" />
@@ -83,14 +84,32 @@
 		original_user.user_id AS original_user_id,
 		original_user.user_alias AS original_user_alias,
 		original_user.user_sex AS original_user_sex,
-		original_user.user_portrait AS original_user_portrait
+		original_user.user_portrait AS original_user_portrait,
+		feed_fav.ffav_time
 		FROM feed
 		LEFT JOIN user ON feed.user_id=user.user_id
 		LEFT JOIN feed AS original ON original.feed_id=feed.feed_original
 		LEFT JOIN user AS original_user ON original.user_id=original_user.user_id
+		LEFT JOIN feed_fav ON feed_fav.feed_id=feed.feed_id AND feed_fav.user_id=#{userId}
 		WHERE feed.user_id IN
 		<foreach collection="followUserList" item="user" index="index" open="("
 			separator="," close=")" >#{user.followUserId}</foreach>
 		ORDER BY feed.feed_submit_time DESC
 	</select>
+
+	<update id="addReplyNum">
+		UPDATE feed SET feed_reply_num = feed_reply_num+1 WHERE feed_id = #{id}
+	</update>
+	
+	<update id="addRepostNum">
+		UPDATE feed SET feed_repost_num = feed_repost_num+1 WHERE feed_id = #{id}
+	</update>
+	
+	<update id="addFavNum">
+		UPDATE feed SET feed_fav_num = feed_fav_num+1 WHERE feed_id = #{id}
+	</update>
+	
+	<update id="minusFavNum">
+		UPDATE feed SET feed_fav_num = feed_fav_num-1 WHERE feed_id = #{id}
+	</update>
 </mapper>

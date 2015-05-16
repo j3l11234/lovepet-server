@@ -2,81 +2,43 @@ package com.j3l11234.lovepet.entity;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-
 public class FeedReplyEntity {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "freply_id", unique = true, nullable = false)
 	private int id;
-	 
-	@Column(name = "user_id")
 	private int userId;
-	
-	@Column(name = "feed_id")
 	private int feedId;
-	
-	@Column(name = "freply_submit_time")
-	private java.util.Date freplySubmitTime;
-	
-	@Column(name = "freply_content")
-	private String freplyContent;
-	
+	private Date submitTime;
+	private String content;
 	
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
-
-
-	public int getUser_id() {
+	public int getUserId() {
 		return userId;
 	}
-
-
-	public void setUser_id(int user_id) {
-		this.userId = user_id;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
-
-	public int getFeed_id() {
+	public int getFeedId() {
 		return feedId;
 	}
-
-
-	public void setFeed_id(int feed_id) {
-		this.feedId = feed_id;
+	public void setFeedId(int feedId) {
+		this.feedId = feedId;
 	}
-	
-	public Date getFreplySubmit_time() {
-		return freplySubmitTime;
+	public Date getSubmitTime() {
+		return submitTime;
 	}
-
-
-	public void setFreplySubmit_time(Date submit_time) {
-		this.freplySubmitTime = submit_time;
+	public void setSubmitTime(Date submitTime) {
+		this.submitTime = submitTime;
 	}
-
-	public String getFreply_content() {
-		return freplyContent;
+	public String getContent() {
+		return content;
 	}
-	
-	public void setFreply_content(String freply_content) {
-		this.freplyContent = freply_content;
+	public void setContent(String content) {
+		this.content = content;
 	}
 	
 	
-
-	public static boolean checkPrivilege(int userPrivilege, int privilege) {
-		return (userPrivilege & privilege) == privilege;
-	}
 }
