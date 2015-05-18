@@ -1,5 +1,6 @@
 package com.j3l11234.lovepet.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -61,6 +62,9 @@ public class FeedModel {
 			userFollow.setFollowUserId(userId);
 			userFollowList.add(userFollow);
 			feedList = feedMapper.getFeedFollow(userFollowList, userId);
+			if(feedList == null){
+				feedList = new ArrayList<Map<String,Object>>();
+			}
 //		} catch (MyException e) {
 //			throw e;
 		} catch (Exception e) {

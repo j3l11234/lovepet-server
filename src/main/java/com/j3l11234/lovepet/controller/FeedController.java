@@ -207,7 +207,7 @@ public class FeedController {
 			if(feedFav != null){
 				retutrnMap.put("data", "点赞成功");
 			}else{
-				retutrnMap.put("data", "取消点赞成功");
+				retutrnMap.put("data", "取消成功");
 			}
 			retutrnMap.put("error", RespondCode.OK);
 			
