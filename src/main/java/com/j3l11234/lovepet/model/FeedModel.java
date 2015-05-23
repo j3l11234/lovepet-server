@@ -16,13 +16,15 @@ import com.j3l11234.lovepet.mapper.FeedFavMapper;
 import com.j3l11234.lovepet.mapper.FeedMapper;
 import com.j3l11234.lovepet.mapper.FeedReplyMapper;
 import com.j3l11234.lovepet.mapper.UserFollowMapper;
+import com.j3l11234.lovepet.mapper.UserMapper;
 import com.j3l11234.lovepet.util.MyException;
 
 
 
 @Service
 public class FeedModel {
-
+	@Autowired  
+	private UserMapper userMapper;
 	@Autowired  
 	private FeedMapper feedMapper; 
 	@Autowired  
@@ -38,6 +40,10 @@ public class FeedModel {
 			int result = feedMapper.addFeed(feed);
 			if(result != 1){
 				throw new MyException("数据插入错误");
+			}
+			result = userMapper.addFeedNum(feed.getUserId());
+			if(result != 1){
+				throw new MyException("数据更新错误");
 			}
 		} catch (MyException e) {
 			throw e;

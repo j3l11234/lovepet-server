@@ -25,13 +25,16 @@ public class UserEntity {
 	private int sex;
 	private String realName;
 	private String phone;
+	private String profile;
+	private int feedMum;
 	private int followNum;
 	private int fansNum;
 
-	
+
 	public int getId() {
 		return id;
 	}
+
 
 
 	public void setId(int id) {
@@ -39,9 +42,11 @@ public class UserEntity {
 	}
 
 
+
 	public String getUsername() {
 		return username;
 	}
+
 
 
 	public void setUsername(String username) {
@@ -49,9 +54,11 @@ public class UserEntity {
 	}
 
 
+
 	public String getEmail() {
 		return email;
 	}
+
 
 
 	public void setEmail(String email) {
@@ -59,9 +66,11 @@ public class UserEntity {
 	}
 
 
+
 	public String getPwd() {
 		return pwd;
 	}
+
 
 
 	public void setPwd(String pwd) {
@@ -69,9 +78,11 @@ public class UserEntity {
 	}
 
 
+
 	public String getAlias() {
 		return alias;
 	}
+
 
 
 	public void setAlias(String alias) {
@@ -79,9 +90,11 @@ public class UserEntity {
 	}
 
 
+
 	public int getPrivilege() {
 		return privilege;
 	}
+
 
 
 	public void setPrivilege(int privilege) {
@@ -89,9 +102,11 @@ public class UserEntity {
 	}
 
 
+
 	public String getPortrait() {
 		return portrait;
 	}
+
 
 
 	public void setPortrait(String portrait) {
@@ -99,9 +114,11 @@ public class UserEntity {
 	}
 
 
+
 	public int getSex() {
 		return sex;
 	}
+
 
 
 	public void setSex(int sex) {
@@ -109,9 +126,11 @@ public class UserEntity {
 	}
 
 
+
 	public String getRealName() {
 		return realName;
 	}
+
 
 
 	public void setRealName(String realName) {
@@ -119,9 +138,11 @@ public class UserEntity {
 	}
 
 
+
 	public String getPhone() {
 		return phone;
 	}
+
 
 
 	public void setPhone(String phone) {
@@ -129,9 +150,35 @@ public class UserEntity {
 	}
 
 
+
+	public String getProfile() {
+		return profile;
+	}
+
+
+
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+
+
+
+	public int getFeedMum() {
+		return feedMum;
+	}
+
+
+
+	public void setFeedMum(int feedMum) {
+		this.feedMum = feedMum;
+	}
+
+
+
 	public int getFollowNum() {
 		return followNum;
 	}
+
 
 
 	public void setFollowNum(int followNum) {
@@ -139,9 +186,11 @@ public class UserEntity {
 	}
 
 
+
 	public int getFansNum() {
 		return fansNum;
 	}
+
 
 
 	public void setFansNum(int fansNum) {

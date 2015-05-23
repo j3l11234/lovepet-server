@@ -1,6 +1,7 @@
 package com.j3l11234.lovepet.model;
 
 import java.security.MessageDigest;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,6 @@ public class UserModel {
 	
 	@Autowired  
     private UserMapper userMapper; 
-
 	
 	public UserEntity login(String username, String password) throws MyException{
 		UserEntity user = null;
@@ -35,11 +35,11 @@ public class UserModel {
 		return user;
 	}
 	
-	public UserEntity getUserInfo(int userId) throws MyException{
-		UserEntity user = null;
+	public HashMap<String, Object> getProfileInfo(int userId) throws MyException{
+		HashMap<String, Object> profileInfo = null;
 		try {
-			user = userMapper.getUserInfo(userId);
-			if(user == null){
+			profileInfo = userMapper.getProfileInfo(userId);
+			if(profileInfo == null){
 				throw new MyException("用户不存在");
 			}
 		} catch (MyException e) {
@@ -48,7 +48,23 @@ public class UserModel {
 			e.printStackTrace();
 			throw new MyException("数据库访问错误");
 		}
-		return user;
+		return profileInfo;
+	}
+	
+	public HashMap<String, Object> getUserInfo(int userId) throws MyException{
+		HashMap<String, Object> userInfo = null;
+		try {
+			userInfo = userMapper.getUserInfo(userId);
+			if(userInfo == null){
+				throw new MyException("用户不存在");
+			}
+		} catch (MyException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new MyException("数据库访问错误");
+		}
+		return userInfo;
 	}
 	
 //	
@@ -90,7 +106,7 @@ public class UserModel {
 //		}
 //		return user;
 //	}
-//	
+	
 	private static String string2MD5(String inStr){
 		MessageDigest md5 = null;
 		try{

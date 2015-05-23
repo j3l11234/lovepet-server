@@ -29,13 +29,13 @@ public class ProfileController {
 	public Object getProfileInfo(HttpSession session) {
 		Map<String, Object> retutrnMap = new HashMap<String, Object>();
 		UserEntity user =  (UserEntity) session.getAttribute("user");
-
+		HashMap<String, Object> userInfo = null;
 		try {
-			user = userModel.getUserInfo(user.getId());
-			retutrnMap.put("success", RespondCode.OK);
-			retutrnMap.put("data", user);
+			userInfo = userModel.getProfileInfo(user.getId());
+			retutrnMap.put("error", RespondCode.OK);
+			retutrnMap.put("data", userInfo);
 		} catch (MyException e) {
-			retutrnMap.put("success", RespondCode.ERROR);
+			retutrnMap.put("error", RespondCode.ERROR);
 			retutrnMap.put("data", e.getMessage());
 			
 		}

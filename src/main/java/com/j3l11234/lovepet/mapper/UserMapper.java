@@ -1,9 +1,8 @@
 package com.j3l11234.lovepet.mapper;
 
+import java.util.HashMap;
+
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Result;  
-import org.apache.ibatis.annotations.Results;  
 import org.springframework.stereotype.Repository;
 
 import com.j3l11234.lovepet.entity.UserEntity;
@@ -33,5 +32,20 @@ public interface UserMapper {
 			@Param("username") String username, 
 			@Param("password") String password);
 	
-	UserEntity getUserInfo(@Param("id") int id);
+	HashMap<String, Object> getProfileInfo(@Param("id") int id);
+	
+	HashMap<String, Object> getUserInfo(@Param("id") int id);
+	
+	int addFeedNum(@Param("id") int id);
+	
+	int minusFeedNum(@Param("id") int id);
+	
+	int addFollowNum(@Param("id") int id);
+	
+	int minusFollowNum(@Param("id") int id);
+	
+	int addFansNum(@Param("id") int id);
+	
+	int minusFansNum(@Param("id") int id);
+	
 }
