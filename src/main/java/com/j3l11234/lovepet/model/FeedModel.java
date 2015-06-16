@@ -107,8 +107,8 @@ public class FeedModel {
 	}
 	
 	
-	public List<FeedReplyEntity> getFeedReply(int feedId, int perPage, int page) throws MyException{
-		List<FeedReplyEntity> feedReplyList;
+	public List<Map<String, Object>> getFeedReply(int feedId, int perPage, int page) throws MyException{
+		List<Map<String, Object>> feedReplyList;
 		try {
 			FeedEntity feed = feedMapper.getFeed(feedId);
 			if(feed == null){

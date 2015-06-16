@@ -43,6 +43,7 @@
 		FROM feed_reply 
 		LEFT JOIN user ON feed_reply.user_id=user.user_id
 		WHERE feed_id=#{feedId}
+		ORDER BY freply_submit_time DESC
 		LIMIT #{limitStart},#{limitEnd}
 	</select>
 	

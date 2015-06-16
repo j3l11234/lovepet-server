@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.j3l11234.lovepet.entity.UserEntity;
 import com.j3l11234.lovepet.model.UserModel;
 import com.j3l11234.lovepet.util.MyException;
+import com.j3l11234.lovepet.util.PrivilegeCheck;
 import com.j3l11234.lovepet.util.RespondCode;
 
 
@@ -72,6 +73,17 @@ public class UserController {
 		return retutrnMap;
 	}
 
+	
+	@RequestMapping(value = "/getUserInfo",method = RequestMethod.POST)
+	@PrivilegeCheck(privilege = UserEntity.USER, needLogin = true)
+	@ResponseBody
+	public Object getUserInfo(HttpSession session) {
+		session.removeAttribute("user");
+		Map<String, Object> retutrnMap = new HashMap<String, Object>();
+		retutrnMap.put("error", RespondCode.OK);
+		retutrnMap.put("data", "注销成功");
+		return retutrnMap;
+	}
 	
 //	@RequestMapping(value="/edit",  method = RequestMethod.POST)
 //	public Object postedit(

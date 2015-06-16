@@ -139,7 +139,8 @@ public class FeedController {
 		//UserEntity user =  (UserEntity) session.getAttribute("user");
 		
 		try {
-			List<FeedReplyEntity> feedReplyList = feedModel.getFeedReply(feedId, perPage, page);
+			List<Map<String, Object>> feedReplyList = feedModel.getFeedReply(feedId, perPage, page);
+			
 			retutrnMap.put("error", RespondCode.OK);
 			retutrnMap.put("data", feedReplyList);
 		} catch (MyException e) {

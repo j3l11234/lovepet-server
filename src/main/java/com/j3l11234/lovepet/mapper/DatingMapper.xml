@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j3l11234.lovepet.mapper.DatingMapper">
+	
+	<resultMap type="com.j3l11234.lovepet.entity.DatingEntity" id="getDating">
+		<id column="dating_id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="dating_submit_time" property="submitTime" />
+		<result column="dating_content" property="content" />
+		<result column="dating_pet" property="pet" />
+		<result column="dating_location" property="location" />
+		<result column="dating_time" property="time" />
+	</resultMap>
+	<select id="getDating" resultMap="getDating">
+		SELECT * FROM dating WHERE dating_id=#{id}
+	</select>
+
+	<insert id="addDating" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO dating
+		(user_id,dating_submit_time,dating_content,dating_pet,dating_location,dating_time)
+		VALUES
+		(#{userId},#{submitTime},#{content},#{pet},#{location},#{time})
+	</insert>
+	
+	<resultMap type="HashMap" id="getDatingList">
+		<id column="dating_id" property="id" />
+		<result column="dating_submit_time" property="submitTime" />
+		<result column="dating_content" property="content" />
+		<result column="dating_pet" property="pet" />
+		<result column="dating_location" property="location" />
+		<result column="dating_time" property="time" />
+		<association property="user" javaType="HashMap">
+			<id column="user_id" property="id" />
+			<result column="user_alias" property="alias" />
+			<result column="user_portrait" property="portrait" />
+			<result column="user_sex" property="sex" />
+		</association>
+	</resultMap>
+	<select id="getDatingList" resultMap="getDatingList">
+		SELECT 
+		dating_id,dating_submit_time,dating_content,dating_pet,dating_location,dating_time,
+		user.user_id,user_alias,user_portrait,user_sex
+		FROM dating 
+		LEFT JOIN user ON dating.user_id=user.user_id
+		ORDER BY dating_submit_time DESC
+		LIMIT #{limitStart},#{limitEnd}
+	</select>
+	
+</mapper>
