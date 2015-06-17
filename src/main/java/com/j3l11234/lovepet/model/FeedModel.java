@@ -191,11 +191,7 @@ public class FeedModel {
 					throw new MyException("数据更新错误");
 				}
 				feedFav = null;
-			}
-			if(result != 1){
-				throw new MyException("数据插入错误");
-			}
-				
+			}			
 		} catch (MyException e) {
 			throw e;
 		} catch (Exception e) {

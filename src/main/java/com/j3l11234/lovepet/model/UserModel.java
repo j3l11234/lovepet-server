@@ -5,8 +5,10 @@ import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.j3l11234.lovepet.entity.UserEntity;
+import com.j3l11234.lovepet.entity.UserFollowEntity;
 import com.j3l11234.lovepet.mapper.UserFollowMapper;
 import com.j3l11234.lovepet.mapper.UserMapper;
 import com.j3l11234.lovepet.util.MyException;
@@ -62,8 +64,8 @@ public class UserModel {
 				throw new MyException("用户不存在");
 			}
 			
-			int result = userFollowMapper.hasFollow(userId, fansId);
-			if(result == 0){
+			UserFollowEntity hasFollow = userFollowMapper.hasFollow(userId, fansId);
+			if(hasFollow == null){
 				userInfo.put("follow", 0);
 			}else{
 				userInfo.put("follow", 1);
@@ -76,6 +78,62 @@ public class UserModel {
 			throw new MyException("数据库访问错误");
 		}
 		return userInfo;
+	}
+	
+	
+	@Transactional(rollbackFor=MyException.class) 
+	public UserFollowEntity followUser(UserFollowEntity userFollow) throws MyException{
+		if(userFollow.getFollowUserId() == userFollow.getFollowFansId()){
+			throw new MyException("您不能关注自己");
+		}
+		try {
+			//判断用户是否存在
+			UserEntity user = userMapper.getUser(userFollow.getFollowUserId());
+			if(user == null){
+				throw new MyException("用户不存在");
+			}
+			UserFollowEntity hasFollow = userFollowMapper.hasFollow(userFollow.getFollowUserId(), userFollow.getFollowFansId());
+			int result;
+			if(hasFollow == null){ //未关注
+				result = userFollowMapper.addUserFollow(userFollow);
+				if(result != 1){
+					throw new MyException("数据更新错误");
+				}
+				//增加粉丝数
+				result = userMapper.addFansNum(userFollow.getFollowUserId());
+				if(result != 1){
+					throw new MyException("数据更新错误");
+				}
+				//增加关注数
+				result = userMapper.addFollowNum(userFollow.getFollowFansId());
+				if(result != 1){
+					throw new MyException("数据更新错误");
+				}
+				
+			}else{ //已关注
+				result = userFollowMapper.deleteUserFollow(hasFollow.getId());
+				if(result != 1){
+					throw new MyException("数据更新错误");
+				}
+				//减少粉丝数
+				result = userMapper.minusFansNum(userFollow.getFollowUserId());
+				if(result != 1){
+					throw new MyException("数据更新错误");
+				}
+				//减少关注数
+				result = userMapper.minusFollowNum(userFollow.getFollowFansId());
+				if(result != 1){
+					throw new MyException("数据更新错误");
+				}
+				userFollow = null;
+			}
+		} catch (MyException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new MyException("数据库访问错误");
+		}
+		return userFollow;
 	}
 	
 //	

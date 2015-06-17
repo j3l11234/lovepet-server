@@ -1,5 +1,6 @@
 package com.j3l11234.lovepet.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.j3l11234.lovepet.entity.FeedFavEntity;
 import com.j3l11234.lovepet.entity.UserEntity;
+import com.j3l11234.lovepet.entity.UserFollowEntity;
 import com.j3l11234.lovepet.model.UserModel;
 import com.j3l11234.lovepet.util.MyException;
 import com.j3l11234.lovepet.util.PrivilegeCheck;
@@ -95,6 +98,40 @@ public class UserController {
 		}
 		return retutrnMap;
 	}
+	
+	@RequestMapping(value = "/followUser", method = RequestMethod.POST)
+	@PrivilegeCheck(privilege = UserEntity.USER, needLogin = true)
+	@ResponseBody
+	public Object followUser(
+			@RequestParam(value ="user_id") int userId,
+			HttpSession session){
+		Map<String, Object> retutrnMap = new HashMap<String, Object>();
+		UserEntity user =  (UserEntity) session.getAttribute("user");
+		
+		UserFollowEntity userFollow = new UserFollowEntity();
+		userFollow.setFollowUserId(userId);
+		userFollow.setFollowFansId(user.getId());
+		userFollow.setFollowTime(new Date());
+
+		try {
+			userFollow = userModel.followUser(userFollow);
+			if(userFollow != null){
+				retutrnMap.put("data", "关注成功");
+			}else{
+				retutrnMap.put("data", "取消关注成功");
+			}
+			retutrnMap.put("error", RespondCode.OK);
+			
+		} catch (MyException e) {
+			retutrnMap.put("error", RespondCode.ERROR);
+			retutrnMap.put("data", e.getMessage());
+			return retutrnMap;
+		}
+
+		return retutrnMap;
+	}
+	
+	
 	
 //	@RequestMapping(value="/edit",  method = RequestMethod.POST)
 //	public Object postedit(
