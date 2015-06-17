@@ -20,5 +20,6 @@ public interface UserFollowMapper {
 	UserFollowEntity getFollow(@Param("id") int id);
 	
 	List<UserFollowEntity> getFollowUser(@Param("userId") int userId);
-
+	
+	int hasFollow(@Param("userId") int userId, @Param("fansId") int fansId);
 }

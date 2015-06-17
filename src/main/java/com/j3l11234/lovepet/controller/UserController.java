@@ -77,11 +77,22 @@ public class UserController {
 	@RequestMapping(value = "/getUserInfo",method = RequestMethod.POST)
 	@PrivilegeCheck(privilege = UserEntity.USER, needLogin = true)
 	@ResponseBody
-	public Object getUserInfo(HttpSession session) {
-		session.removeAttribute("user");
+	public Object getUserInfo(
+			@RequestParam(value ="user_id") int userID,
+			HttpSession session) {
+		
 		Map<String, Object> retutrnMap = new HashMap<String, Object>();
-		retutrnMap.put("error", RespondCode.OK);
-		retutrnMap.put("data", "注销成功");
+		UserEntity user =  (UserEntity) session.getAttribute("user");
+		HashMap<String, Object> userInfo = null;
+		try {
+			userInfo = userModel.getUserInfo(userID, user.getId());
+			retutrnMap.put("error", RespondCode.OK);
+			retutrnMap.put("data", userInfo);
+		} catch (MyException e) {
+			retutrnMap.put("error", RespondCode.ERROR);
+			retutrnMap.put("data", e.getMessage());
+			
+		}
 		return retutrnMap;
 	}
 	

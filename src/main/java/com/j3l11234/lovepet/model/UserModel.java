@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.j3l11234.lovepet.entity.UserEntity;
+import com.j3l11234.lovepet.mapper.UserFollowMapper;
 import com.j3l11234.lovepet.mapper.UserMapper;
 import com.j3l11234.lovepet.util.MyException;
 
@@ -17,6 +18,8 @@ public class UserModel {
 	
 	@Autowired  
     private UserMapper userMapper; 
+	@Autowired  
+    private UserFollowMapper userFollowMapper; 
 	
 	public UserEntity login(String username, String password) throws MyException{
 		UserEntity user = null;
@@ -51,13 +54,21 @@ public class UserModel {
 		return profileInfo;
 	}
 	
-	public HashMap<String, Object> getUserInfo(int userId) throws MyException{
+	public HashMap<String, Object> getUserInfo(int userId,int fansId) throws MyException{
 		HashMap<String, Object> userInfo = null;
 		try {
 			userInfo = userMapper.getUserInfo(userId);
 			if(userInfo == null){
 				throw new MyException("用户不存在");
 			}
+			
+			int result = userFollowMapper.hasFollow(userId, fansId);
+			if(result == 0){
+				userInfo.put("follow", 0);
+			}else{
+				userInfo.put("follow", 1);
+			}
+			
 		} catch (MyException e) {
 			throw e;
 		} catch (Exception e) {
