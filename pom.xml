@@ -92,8 +92,19 @@
 		</dependency>
 	</dependencies>
 
+
 	<build>
 		<finalName>lovepet</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<!-- 指定编译版本 -->
 			<plugin>
