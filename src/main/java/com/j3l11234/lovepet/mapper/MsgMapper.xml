@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.j3l11234.lovepet.mapper.MsgMapper">
+	
+	<resultMap type="com.j3l11234.lovepet.entity.MsgEntity" id="getMsg">
+		<id column="message_id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="receive_user_id" property="receiveUserId" />
+		<result column="message_content" property="content" />
+		<result column="message_datetime" property="datetime" />
+	</resultMap>
+	
+
+	<insert id="addMsg" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO message
+		(user_id,receive_user_id,message_content,message_datetime)
+		VALUES
+		(#{userId},#{receiveUserId},#{content},#{datetime})
+	</insert>
+
+	<resultMap type="HashMap" id="getMsgList">
+		<id column="message_id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="receive_user_id" property="receiveUserId" />
+		<result column="message_content" property="content" />
+		<result column="message_datetime" property="datetime" />
+		
+	</resultMap>
+	<select id="getMsgList" resultMap="getMsgList">
+		SELECT 
+		message_id,user_id,receive_user_id,message_content,message_datetime
+		FROM message
+		WHERE receive_user_id=#{userId} 
+		ORDER BY message_datetime DESC
+	</select>
+
+	
+</mapper>
